@@ -37,6 +37,17 @@ class tools:
 		#nospace型 无空格类型 20191110
 
 		#有空可以把下面代码复用一下
+		#这个代码有点冗余啊
+		if day==0:
+			days=abs(day)
+			st=(datetime.now()).__str__()
+			l=st.split(' ')
+			result=l[0]
+			if fmt=='space':
+				result=result.replace('-',' ')
+			if fmt=='nospace':
+				result=result.replace('-','')
+			return result
 		if day>0:
 			days=abs(day)
 			st=(datetime.now()+timedelta(days=days)).__str__()
