@@ -110,6 +110,18 @@ class tools:
 			time_list[i]=temp
 
 		return time_list
+	def add_dir_to_sysPath(n,scripts_path):
+		"""n为需要添加的级数，比如n=1，将把上一级文件夹加入
+		sys.path中，n=2位上第二级，类推。
+		scripts_path需要传入调用脚本的__file__
+		"""
+		import sys
+		import os 
+		temp_path=scripts_path
+		for i in range(n+1):
+			temp_path=os.path.dirname(temp_path)
+		result_path=temp_path
+		sys.path.append(result_path)
 
 
 
