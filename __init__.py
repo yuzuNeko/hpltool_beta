@@ -88,6 +88,28 @@ class tools:
 			start=start+timedelta(days=1)
 			count+=1
 		return result_list
+	@staticmethod
+	def form_sequence(start,end):
+		"""返回一个时间序列，比如输入0930，1000，会返回
+		包含这之间所有分钟的列表
+		"""
+		start_time=dt.strptime(start,'%H%M')
+		end_time=dt.strptime(end,'%H%M')
+		time_list=[]
+		time_list.append(start_time)
+		flag=1
+		while flag:
+			time_temp=start_time+timedelta(seconds=60*flag)
+			time_list.append(time_temp)
+			flag+=1
+			if time_temp==end_time or flag==10000:
+				break
+		for i in range(len(time_list)):
+			temp=time_list[i].__str__().split(' ')[1].split(':')[:2]
+			temp=''.join(temp)
+			time_list[i]=temp
+
+		return time_list
 
 
 
