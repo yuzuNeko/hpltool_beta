@@ -88,11 +88,34 @@ class tools:
 			start=start+timedelta(days=1)
 			count+=1
 		return result_list
+
+	@staticmethod
+	def return_datetime_string_list_byNumber(start_string,n):
+		#用途：返回一个两个格式化日期之间的时间序列的列表
+		#通过数字
+		#可以格式化这两个字符，变成可以操作的东西，不限于单一格式
+		#普通格式 如2018-10-11 10，将返回之后10天的
+		print('ready')
+		fmt={}
+		fmt['normal']='%Y-%m-%d'
+		start=datetime.strptime(start_string,fmt['normal'])
+		result_list=[]
+		count=0
+		while 1:
+			item=start.__str__().split(' ')[0]
+			result_list.append(item)
+			if count==n-1:
+				break
+			start=start+timedelta(days=1)
+			count+=1
+		return result_list
+
 	@staticmethod
 	def form_sequence(start,end):
 		"""返回一个时间序列，比如输入0930，1000，会返回
 		包含这之间所有分钟的列表
 		"""
+		from datetime import datetime as dt
 		start_time=dt.strptime(start,'%H%M')
 		end_time=dt.strptime(end,'%H%M')
 		time_list=[]
@@ -110,6 +133,33 @@ class tools:
 			time_list[i]=temp
 
 		return time_list
+	@staticmethod
+	def form_sequence_byNumber(start,n):
+		"""返回一个时间序列，比如输入0930，10，会返回
+			0930-0940
+			包含这之间所有分钟的列表
+			注意n代表最终返回的个数，
+		"""
+		from datetime import datetime as dt
+		from datetime import timedelta
+		start_time=dt.strptime(start,'%H%M')
+		# end_time=dt.strptime(end,'%H%M')
+		time_list=[]
+		time_list.append(start_time)
+		flag=1
+		while flag:
+			time_temp=start_time+timedelta(seconds=60*flag)
+			time_list.append(time_temp)
+			flag+=1
+			if flag==n:
+				break
+		for i in range(len(time_list)):
+			temp=time_list[i].__str__().split(' ')[1].split(':')[:2]
+			temp=''.join(temp)
+			time_list[i]=temp
+
+		return time_list
+	@staticmethod
 	def add_dir_to_sysPath(n,scripts_path):
 		"""n为需要添加的级数，比如n=1，将把上一级文件夹加入
 		sys.path中，n=2位上第二级，类推。
@@ -130,6 +180,8 @@ class tools:
 	#这里只能用实例方法
 	def w(self,filename,string,path=None):
 		if path!=None:
+			import os
+			import pickle
 			with open(os.path.join(path,filename),'w') as f:
 				f.write(string)
 		current_module=self.__module__
@@ -142,6 +194,8 @@ class tools:
 				f.write(string)
 	def r(self,filename,path=None):
 		if path!=None:
+			import os
+			import pickle
 			with open(os.path.join(path,filename),'r') as f:
 				read=f.read()
 				print(read)
@@ -158,6 +212,8 @@ class tools:
 				return read
 	def pic_r(self,filename,path=None):
 		if path!=None:
+			import os
+			import pickle
 			with open(os.path.join(path,filename),'rb') as f:
 				read=f.read()
 				read=pickle.loads(read)
@@ -175,6 +231,8 @@ class tools:
 				return read
 	def pic_w(self,filename,string,path=None):
 		if path!=None:
+			import os
+			import pickle
 			with open(os.path.join(path,filename),'wb') as f:
 				string=pickle.dumps(string)
 				f.write(string)
