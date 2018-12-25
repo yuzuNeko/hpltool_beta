@@ -69,15 +69,19 @@ class tools:
 				result=result.replace('-','')
 			return result
 	@staticmethod
-	def return_datetime_string_list(start_string,end_string):
+	def return_datetime_string_list(start_string,end_string,fmt_type='normal',
+		output_fmt='normal'):
 		#用途：返回一个两个格式化日期之间的时间序列的列表
 
 		#可以格式化这两个字符，变成可以操作的东西，不限于单一格式
 		#普通格式 如2018-10-11
+
+		#设计不当，别的函数也需要改
 		print('ready')
 		fmt={}
 		fmt['normal']='%Y-%m-%d'
-		start=datetime.strptime(start_string,fmt['normal'])
+		fmt['nospace']='%Y%m%d'
+		start=datetime.strptime(start_string,fmt[fmt_type])
 		result_list=[]
 		count=0
 		while 1:
@@ -87,10 +91,17 @@ class tools:
 				break
 			start=start+timedelta(days=1)
 			count+=1
+		if output_fmt=='nospace':
+			temp_list=result_list
+			result_list=[]
+			for i in temp_list:
+				temp=i.replace('-','')
+				result_list.append(temp)
 		return result_list
 
 	@staticmethod
-	def return_datetime_string_list_byNumber(start_string,n):
+	def return_datetime_string_list_byNumber(start_string,n,fmt_type='normal',
+		output_fmt='normal'):
 		#用途：返回一个两个格式化日期之间的时间序列的列表
 		#通过数字
 		#可以格式化这两个字符，变成可以操作的东西，不限于单一格式
@@ -98,7 +109,8 @@ class tools:
 		print('ready')
 		fmt={}
 		fmt['normal']='%Y-%m-%d'
-		start=datetime.strptime(start_string,fmt['normal'])
+		fmt['nospace']='%Y%m%d'
+		start=datetime.strptime(start_string,fmt[fmt_type])
 		result_list=[]
 		count=0
 		while 1:
@@ -108,6 +120,13 @@ class tools:
 				break
 			start=start+timedelta(days=1)
 			count+=1
+		#改变输出形式
+		if output_fmt=='nospace':
+			temp_list=result_list
+			result_list=[]
+			for i in temp_list:
+				temp=i.replace('-','')
+				result_list.append(temp)
 		return result_list
 
 	@staticmethod
@@ -534,12 +553,18 @@ class stock_handler:
 
 
 class hpldir:
-	def dirobj(self,obj):
+	"""
+	todo_list:
+	加入interface，除去<>的表达式
+
+	"""
+	def dirobj(self,obj,interface=None):
 		'''
 		to see a object's attribute,
 		sometimes would not work will return ****
 
 		'''
+
 		a=dir(obj)
 		dic={}
 		for i in a:
@@ -567,4 +592,12 @@ class hpldir:
 					pass
 
 		for i in dic:
+			if interface!=None and interface.remove=='sharp':
+				#这个地方写得不好，还是要改进才行
+				try:
+					dic_str=dic[i].__str__()
+					if dic_str[0]=='<' and dic_str[-1]=='>':
+						continue
+				except:
+					pass
 			print(i+'-------------',dic[i])
