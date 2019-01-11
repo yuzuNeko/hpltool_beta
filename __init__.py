@@ -1,12 +1,20 @@
-import requests
+
 import json
 import time
-import pymysql
+
 import os
-import tushare as ts
+
 from datetime import datetime,timedelta
 import pickle
 #迭代打印
+
+try:
+	import requests
+	import pymysql
+	import tushare as ts
+except:
+	print('外部模块缺乏')
+
 
 
 class tools:
@@ -601,3 +609,18 @@ class hpldir:
 				except:
 					pass
 			print(i+'-------------',dic[i])
+
+class initialization:
+	def form_normal_template(self,filename):
+		import os
+		current_path=os.path.dirname(__file__)
+		file_path=os.path.join(current_path,'source//template.py')
+		with open(file_path,'rb') as f:
+			read=f.read()
+		with open(filename,'wb') as f:
+			f.write(read)
+		print('初始化完成')
+
+
+ 
+
