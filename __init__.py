@@ -209,7 +209,7 @@ class tools:
 		if path!=None:
 			import os
 			import pickle
-			with open(os.path.join(path,filename),'w') as f:
+			with open(os.path.join(path,filename),'w',encoding='utf-8') as f:
 				f.write(string)
 		current_module=self.__module__
 		if current_module!='__main__':
@@ -609,6 +609,7 @@ class hpldir:
 				except:
 					pass
 			print(i+'-------------',dic[i])
+		return dic
 
 class initialization:
 	def form_normal_template(self,filename):

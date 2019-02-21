@@ -25,15 +25,15 @@ class Interface():
 		pass
 
 
-def main():
-	switch()
+
 
 
 #选择入口字典
 module_set={
 	'default':Interface,
 }
-
+#可以省略加入字典的步骤
+module_set_inject=globals()
 
 
 def switch(mode=None):
@@ -47,11 +47,13 @@ def switch(mode=None):
 		#其他在测试时直接定义
 	#实例化当前模组
 	entry=module_set[select_mode]()
+	# entry=module_set_inject[select_mode]()
 	#执行本次的脚本入口
 	entry.main()
 
 
-
+def main():
+	switch()
 
 
 
