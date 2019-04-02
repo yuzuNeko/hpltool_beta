@@ -20,8 +20,8 @@ except:
 class tools:
 	@staticmethod
 	def read_source_code(module_name):
-	with open(str(module_name.__file__),'r') as f:
-		print(f.read())
+		with open(str(module_name.__file__),'r') as f:
+			print(f.read())
 
 	@staticmethod
 	def sl(li,num,remove=False):
