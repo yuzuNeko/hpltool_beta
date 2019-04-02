@@ -19,6 +19,11 @@ except:
 
 class tools:
 	@staticmethod
+	def read_source_code(module_name):
+	with open(str(module_name.__file__),'r') as f:
+		print(f.read())
+
+	@staticmethod
 	def sl(li,num,remove=False):
 		l=[li[i:i+num] for i in range(0,len(li),num)]
 		if not remove:
